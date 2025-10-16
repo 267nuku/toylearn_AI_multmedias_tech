@@ -1,0 +1,360 @@
+{
+  "name": "03_action_nodes_rss.json",
+  "nodes": [
+    {
+      "parameters": {
+        "chatId": "7927045573",
+        "text": "=n8n에서 보냅니다.\nxml 형식입니다.\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1344,
+        384
+      ],
+      "id": "bf56e75d-a57d-4619-8c8c-8fba314ada4c",
+      "name": "Send a text message",
+      "webhookId": "86b89cb4-f6ba-4c4f-89c7-05415b68b9dc",
+      "credentials": {
+        "telegramApi": {
+          "id": "L2Y5SmSh3oLjxqlc",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        384
+      ],
+      "id": "bf27df57-cc3f-49e3-af19-de75b620960d",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://www.chosun.com/arc/outboundfeeds/rss/",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "outputType",
+              "value": "xml"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1104,
+        384
+      ],
+      "id": "6b65cad9-6139-4f86-84f8-c1d7d0c832ab",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "url": "https://www.chosun.com/arc/outboundfeeds/rss/?outputType=xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        976,
+        624
+      ],
+      "id": "e3838315-2592-4233-b269-b1165a387df9",
+      "name": "RSS Read"
+    },
+    {
+      "parameters": {
+        "maxItems": 3,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        736
+      ],
+      "id": "aa90729e-ae24-42e9-82d9-40b5ca4637e6",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "chatId": "7927045573",
+        "text": "=n8n에서 보냅니다.\n제목:{{ $json.title }}\n발행일:{{ $json.pubDate }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1376,
+        736
+      ],
+      "id": "ba0ed33c-cf9f-46a6-b8d6-e5b7a59da8eb",
+      "name": "Send a text message1",
+      "webhookId": "86b89cb4-f6ba-4c4f-89c7-05415b68b9dc",
+      "credentials": {
+        "telegramApi": {
+          "id": "L2Y5SmSh3oLjxqlc",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "7927045573",
+        "text": "=n8n에서 보냅니다.\n제목:{{ $json.title }}\n발행일:{{ $json.pubDate }}\n",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        224,
+        -64
+      ],
+      "id": "271249fe-f181-4a36-bd9e-5938af28f3d7",
+      "name": "Send a text message2",
+      "webhookId": "86b89cb4-f6ba-4c4f-89c7-05415b68b9dc",
+      "credentials": {
+        "telegramApi": {
+          "id": "L2Y5SmSh3oLjxqlc",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -320,
+        -64
+      ],
+      "id": "6469744b-2c5a-40fb-a83c-4e2aa1a0745a",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "url": "https://news.sbs.co.kr/news/TopicRssFeed.do?plink=RSSREADER",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        176
+      ],
+      "id": "a3b37ff2-1d23-49f4-80c8-1cf81c07982d",
+      "name": "RSS Read1"
+    },
+    {
+      "parameters": {
+        "maxItems": 3,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        16,
+        288
+      ],
+      "id": "beeb51d7-bc78-4ccf-b40f-43e4ae8ae56e",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "chatId": "7927045573",
+        "text": "=n8n에서 보냅니다.\n제목:{{ $json.title }}\n발행일:{{ $json.pubDate }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        256,
+        288
+      ],
+      "id": "4135c2a1-a193-4a38-950d-24684d2c70e4",
+      "name": "Send a text message3",
+      "webhookId": "86b89cb4-f6ba-4c4f-89c7-05415b68b9dc",
+      "credentials": {
+        "telegramApi": {
+          "id": "L2Y5SmSh3oLjxqlc",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://www.yna.co.kr/rss/industry.xml",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.rssFeedRead",
+      "typeVersion": 1.2,
+      "position": [
+        -144,
+        -112
+      ],
+      "id": "f50d185e-e341-418c-b3cb-d2c5a24989f0",
+      "name": "RSS Read2"
+    },
+    {
+      "parameters": {
+        "maxItems": 3,
+        "keep": "lastItems"
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        16,
+        0
+      ],
+      "id": "8ab6a4e7-cd53-4e39-b088-961cb8b36555",
+      "name": "Limit2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "RSS Read1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "RSS Read2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RSS Read2": {
+      "main": [
+        [
+          {
+            "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit2": {
+      "main": [
+        [
+          {
+            "node": "Send a text message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ed7a3383-b46f-486c-bd4e-ddf275720cc5",
+  "meta": {
+    "instanceId": "e39380491996749b9c30423c6f8250cce910bf51eedf5720d2ab40873a4627c0"
+  },
+  "id": "HcERXXoyOrA1cYwd",
+  "tags": []
+}
