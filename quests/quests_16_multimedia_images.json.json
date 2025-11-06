@@ -1,0 +1,137 @@
+{
+  "name": "quests/16_multimedia_images.json",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "샤넬풍 드레스로 만들어줘",
+        "formDescription": "전신이미지를 넣으면 샤넬풍 드레스로 만들어줘",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "INPUT_IMAGE",
+              "fieldType": "file",
+              "multipleFiles": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -336,
+        -112
+      ],
+      "id": "ce6c463b-2939-4a80-bc17-4b28601e0fc1",
+      "name": "On form submission2",
+      "webhookId": "21ae6cac-d20e-4272-a6d1-b0c63a6a1fc8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-image:generateContent",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "x-goog-api-key",
+              "value": "AIzaSyDbWhFnYblrk0mTt_y3Zn8v5_Css_J4H9s"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n    \"contents\": [{\n        \"parts\":[\n            {\"text\":\"이미지속 인물을 샤넬풍 드레스를 입혀줘\"},\n            {\n                \"inline_data\": {\n                    \"mime_type\":\"{{ $('On form submission2').item.json.INPUT_IMAGE.mimetype }}\",\n                    \"data\": \"{{ $json.data }}\"\n                }\n            }\n        ]\n    }]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        64,
+        -112
+      ],
+      "id": "41a1bdd0-d4a9-4902-9edf-7004d73b8e42",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "candidates[0].content.parts[1].inlineData.data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        -112
+      ],
+      "id": "c21d155f-5ce9-40a0-9294-f2f39defaf8e",
+      "name": "Convert to File1"
+    },
+    {
+      "parameters": {
+        "operation": "binaryToPropery",
+        "binaryPropertyName": "INPUT_IMAGE",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -112
+      ],
+      "id": "af1a4a45-1800-4802-b2cc-3302748880e0",
+      "name": "Extract from File1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission2": {
+      "main": [
+        [
+          {
+            "node": "Extract from File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ba0d0984-2c4c-4328-ba18-06d449df8c66",
+  "meta": {
+    "instanceId": "7cba417e1f707467675cb1c40d8e9b8fb1653a39c1f3905994fe95e9e3dc2a9f"
+  },
+  "id": "L6YOZnz5RYtBrnja",
+  "tags": []
+}
