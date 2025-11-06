@@ -3,14 +3,17 @@
   "nodes": [
     {
       "parameters": {
-        "formTitle": "샤넬풍 드레스로 만들어줘",
-        "formDescription": "전신이미지를 넣으면 샤넬풍 드레스로 만들어줘",
+        "formTitle": "이미지변환 프로그램",
+        "formDescription": "이미지와 요청사항을 입력해주세요",
         "formFields": {
           "values": [
             {
               "fieldLabel": "INPUT_IMAGE",
               "fieldType": "file",
               "multipleFiles": false
+            },
+            {
+              "fieldLabel": "prompt"
             }
           ]
         },
@@ -19,7 +22,7 @@
       "type": "n8n-nodes-base.formTrigger",
       "typeVersion": 2.3,
       "position": [
-        -336,
+        -384,
         -112
       ],
       "id": "ce6c463b-2939-4a80-bc17-4b28601e0fc1",
@@ -51,8 +54,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.3,
       "position": [
-        64,
-        -112
+        -16,
+        -96
       ],
       "id": "41a1bdd0-d4a9-4902-9edf-7004d73b8e42",
       "name": "HTTP Request1"
@@ -66,8 +69,8 @@
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        272,
-        -112
+        144,
+        -96
       ],
       "id": "c21d155f-5ce9-40a0-9294-f2f39defaf8e",
       "name": "Convert to File1"
@@ -81,11 +84,43 @@
       "type": "n8n-nodes-base.extractFromFile",
       "typeVersion": 1,
       "position": [
-        -160,
-        -112
+        -208,
+        -96
       ],
       "id": "af1a4a45-1800-4802-b2cc-3302748880e0",
       "name": "Extract from File1"
+    },
+    {
+      "parameters": {
+        "name": "샤넬풍드레스",
+        "driveId": {
+          "__rl": true,
+          "value": "My Drive",
+          "mode": "list",
+          "cachedResultName": "My Drive",
+          "cachedResultUrl": "https://drive.google.com/drive/my-drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "https://drive.google.com/drive/folders/1skxuFOXx-L06y6VVKpZpRbkmku2VeOh-",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        336,
+        -96
+      ],
+      "id": "87c94a0c-7eeb-440f-92cd-f3944ad2734a",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "cKttMJQSMZbJakRO",
+          "name": "Google Drive account"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -122,14 +157,26 @@
           }
         ]
       ]
+    },
+    "Convert to File1": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "ba0d0984-2c4c-4328-ba18-06d449df8c66",
+  "versionId": "74a38791-39d9-422c-8557-0fedf8144808",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "7cba417e1f707467675cb1c40d8e9b8fb1653a39c1f3905994fe95e9e3dc2a9f"
   },
   "id": "L6YOZnz5RYtBrnja",
